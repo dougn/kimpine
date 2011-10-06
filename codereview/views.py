@@ -2996,15 +2996,13 @@ def search(request):
 
   # Update the cursor value in the result.
   if format == 'html':
-    nav_params = dict(
-        (k, v) for k, v in form.cleaned_data.iteritems() if v is not None)
-    return _paginate_issues_with_cursor(
-        reverse(search),
-        request,
-        q,
-        form.cleaned_data['limit'] or DEFAULT_LIMIT,
-        'search_results.html',
-        extra_nav_parameters=nav_params)
+    nav_params = dict((k, v) for k, v in form.cleaned_data.iteritems() if v is not None)
+    return _paginate_issues_with_cursor(reverse(search),
+                                        request,
+                                        q,
+                                        form.cleaned_data['limit'] or DEFAULT_LIMIT,
+                                        'search_results.html',
+                                        extra_nav_parameters=nav_params)
 
   results = q[:form.cleaned_data['limit'] or 100]
   # form.cleaned_data['cursor'] = q.cursor()
