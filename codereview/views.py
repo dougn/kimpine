@@ -350,6 +350,10 @@ class SearchForm(forms.Form):
                               max_length=1000,
                               widget=AccountInput(attrs={'size': 60, 'multiple': False}))
   private = forms.NullBooleanField(required=False)
+  created_before = forms.DateTimeField(required=False, label='Created before')
+  created_after = forms.DateTimeField(required=False, label='Created on or after')
+  modified_before = forms.DateTimeField(required=False, label='Modified before')
+  modified_after = forms.DateTimeField(required=False, label='Modified on or after')
 
   def __init__(self, *args, **kwargs):
     self.request = kwargs.pop('request', None)
@@ -2964,14 +2968,32 @@ def search(request):
   #if form.cleaned_data.get('cursor'):
   #  q.with_cursor(form.cleaned_data['cursor']) #TODO(kle):get this working at some point
   q = models.Issue.objects.all()
-  if form.cleaned_data.get('closed') != None:
+  if form.cleaned_data['closed']:
     q.filter(closed=form.cleaned_data['closed'])
-  if form.cleaned_data.get('owner'):
+  if form.cleaned_data['owner']:
     q.filter(owner=form.cleaned_data['owner'])
-  if form.cleaned_data.get('reviewer'):
+  if form.cleaned_data['reviewer']:
     q.filter(reviewers=form.cleaned_data['reviewer'])
-  if form.cleaned_data.get('private') != None:
+  if form.cleaned_data['private']:
     q.filter(private=form.cleaned_data['private'])
+
+  order_by = None
+  if form.cleaned_data['modified_before']:
+    q.filter(modified__lt=form.cleaned_data['modified_before'])
+    order_by = 'modified'
+  if form.cleaned_data['modified_after']:
+    q.filter(modified__gte=form.cleaned_data['modified_after'])
+    order_by = 'modified'
+  if form.cleaned_data['created_before']:
+    q.filter(modified__lt=form.cleaned_data['created_before'])
+    order_by = 'created'
+  if form.cleaned_data['created_after']:
+    q.filter(modified__lt=form.cleaned_data['created_after'])
+    order_by = 'created'
+
+  if order_by:
+    q.order_by(order_by)
+
   # Update the cursor value in the result.
   if format == 'html':
     nav_params = dict(
