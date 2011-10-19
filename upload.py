@@ -526,6 +526,9 @@ parser = optparse.OptionParser(
     add_help_option=False,
     formatter=CondensedHelpFormatter()
 )
+
+parser.add_option("-h", "--help", action="store_true",
+                  help="Show this help message and exit")
 parser.add_option("-y", "--assume_yes", action="store_true",
                   dest="assume_yes", default=False,
                   help="Assume that the answer to yes/no questions is 'yes'.")
@@ -2168,6 +2171,14 @@ def RealMain(argv, data=None):
     script (applies only to SVN checkouts).
   """
   options, args = parser.parse_args(argv[1:])
+  if options.help:
+    if options.verbose < 2:
+      # hide Perforce options
+      parser.epilog = "Use '--help -v' to show additional Perforce options."
+      parser.option_groups.remove(parser.get_option_group('--p4_port'))
+    parser.print_help()
+    sys.exit(0)
+
   global verbosity
   verbosity = options.verbose
   if verbosity >= 3:
