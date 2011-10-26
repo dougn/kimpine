@@ -1389,7 +1389,7 @@ def add(request):
   issue = request.issue
   form = AddForm(request.POST, request.FILES, request=request)
   if not _add_patchset_from_form(request, issue, form):
-    return show(request, issue.id, form)
+    return show(request, form)
   return HttpResponseRedirect(reverse(show, args=[issue.id]))
 
 
