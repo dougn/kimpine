@@ -2128,7 +2128,6 @@ def diff_skipped_lines(request, id_before, id_after, where, column_width):
     't' - move marker line to top and expand below
     'a' - expand all skipped lines
   """
-  patchset = request.patchset
   patch = request.patch
   if where == 'a':
     context = None
