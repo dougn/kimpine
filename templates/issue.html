@@ -30,10 +30,12 @@
 {%for patchset in patchsets%}
   <h3>
     <a id="ps-{{patchset.id}}-pointer"
-       href="javascript:M_toggleSectionForPS('{{issue.id}}', '{{patchset.id}}')"
-       class="toggled-section {%if forloop.last%}opentriangle{%endif%}">
+      href="{%url codereview.views.show issue.id%}#ps{{patchset.id}}"
+      onclick="M_toggleSectionForPS('{{issue.id}}', '{{patchset.id}}')"
+      class="toggled-section {%if forloop.last%}opentriangle{%endif%}">
       Patch Set {{forloop.counter}}
       {%if patchset.message%}: {{patchset.message}}{%endif%}
+      <span class="anchor">#</span>
     </a>
   </h3>
 
@@ -56,6 +58,13 @@
        style="display:none">
   {%endif%}
   </div>
+  {%if forloop.last%}
+    <script>
+      <!--
+      var lastPSId = {{patchset.id}};
+      // -->
+    </script>
+  {%endif%}
 {%endfor%}
 
 
@@ -151,7 +160,8 @@
   <!--
     document.onkeydown = M_changelistKeyDown;
     var dashboardState = new M_DashboardState(window, 'patch', 'M_CLPatchMarker');
-    M_toggleIssueMessageByAnchor();
+    var issueId = {{issue.id}};
+    M_toggleIssueOverviewByAnchor();
   // -->
 </script>
 
