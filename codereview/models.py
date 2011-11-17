@@ -236,17 +236,18 @@ class Content(models.Model):
   file_too_large = models.BooleanField(default=False)
 
   def save(self, *args, **kwargs):
-    if self.text:
-      try:
-        filename = kwargs.pop('filename')
-      except:
-        filename = Patch.objects.filter(Q(content=self) | Q(patched_content=self)).all()[0].filename
-      formatter = HtmlFormatter(nowrap=True, style='colorful')
-      try:
-        lexer = get_lexer_for_filename(filename)
-      except ClassNotFound:
-        lexer = TextLexer()
-      self.highlighted_text = highlight(self.text, lexer, formatter)
+    if self.text is None:
+      self.text = ""
+    try:
+      filename = kwargs.pop('filename')
+    except:
+      filename = Patch.objects.filter(Q(content=self) | Q(patched_content=self)).all()[0].filename
+    formatter = HtmlFormatter(nowrap=True, style='colorful')
+    try:
+      lexer = get_lexer_for_filename(filename)
+    except ClassNotFound:
+      lexer = TextLexer()
+    self.highlighted_text = highlight(self.text, lexer, formatter)
     super(Content, self).save(*args, **kwargs)
 
   @property
