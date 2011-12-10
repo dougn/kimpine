@@ -641,13 +641,13 @@ def GetRpcServer(server, email=None, host_override=None, save_cookies=True,
   """
 
   rpc_server_class = HttpRpcServer
+  server = server.rstrip('/')
 
   # If this is the dev_appserver, use fake authentication.
   host = (host_override or server).lower()
-  if re.match(r'(http://)?localhost([:/]|$)', host):
-    if email is None:
-      email = "test@example.com"
-      logging.info("Using debug user %s.  Override with --email" % email)
+  if re.match(r'(http://)?localhost([:/]|$)', host) and not email:
+    email = "test@example.com"
+    logging.info("Using debug user %s.  Override with --email" % email)
     server = rpc_server_class(
         server,
         lambda: (email, "password"),
