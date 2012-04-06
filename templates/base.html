@@ -17,22 +17,22 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
   <link rel="alternate" type="application/atom+xml"
    	title="Recent Issues"
-   	href="{%url django.contrib.syndication.views.feed url="all"%}" />
+   	href="{%url django.contrib.syndication.views.Feed url="all"%}" />
    {%if user.is_authenticated%}
      <link rel="alternate" type="application/atom+xml"
    	  title="Issues created by me"
-   	  href="{%url django.contrib.syndication.views.feed url="mine"%}/{%nickname user True%}" />
+   	  href="{%url django.contrib.syndication.views.Feed url="mine"%}/{%nickname user True%}" />
      <link rel="alternate" type="application/atom+xml"
    	  title="Issues reviewable by me" 
-   	  href="{%url django.contrib.syndication.views.feed url="reviews"%}/{%nickname user True%}" />
+   	  href="{%url django.contrib.syndication.views.Feed url="reviews"%}/{%nickname user True%}" />
      <link rel="alternate" type="application/atom+xml"
    	  title="Issues closed by me"
-   	  href="{%url django.contrib.syndication.views.feed url="closed"%}/{%nickname user True%}" />
+   	  href="{%url django.contrib.syndication.views.Feed url="closed"%}/{%nickname user True%}" />
    {%endif%}
    {%if issue%}
      <link rel="alternate" type="application/atom+xml"
  	    title="Issue {{issue.id}}"
- 	    href="{%url django.contrib.syndication.views.feed url="issue"%}/{{issue.id}}" />
+ 	    href="{%url django.contrib.syndication.views.Feed url="issue"%}/{{issue.id}}" />
    {%endif%} 
    <!-- head block to insert js/css for forms processing -->
    {%block head%}{%endblock%}
@@ -219,18 +219,18 @@ var publish_link = "{%url codereview.views.publish issue.id%}";
   <div style="height:14px;">
   <img src="{{STATIC_URL}}rss.gif" alt="RSS Feeds" width="14" height="14"
        align="top" />
-  <a href="{%url django.contrib.syndication.views.feed url="all"%}">Recent Issues</a>
+  <a href="{%url django.contrib.syndication.views.Feed url="all"%}">Recent Issues</a>
   {%if user.is_authenticated%}
   |
-  <a href="{%url django.contrib.syndication.views.feed url="mine"%}/{%nickname user True%}">My Issues</a>
+  <a href="{%url django.contrib.syndication.views.Feed url="mine"%}/{%nickname user True%}">My Issues</a>
   |
-  <a href="{%url django.contrib.syndication.views.feed url="reviews"%}/{%nickname user True%}">My Reviews</a>
+  <a href="{%url django.contrib.syndication.views.Feed url="reviews"%}/{%nickname user True%}">My Reviews</a>
   |
-  <a href="{%url django.contrib.syndication.views.feed url="closed"%}/{%nickname user True%}">My Closed</a>
+  <a href="{%url django.contrib.syndication.views.Feed url="closed"%}/{%nickname user True%}">My Closed</a>
   {%endif%}
   {%if issue%}
   |
-  <a href="{%url django.contrib.syndication.views.feed url="issue"%}/{{issue.id}}">This issue</a>
+  <a href="{%url django.contrib.syndication.views.Feed url="issue"%}/{{issue.id}}">This issue</a>
   {%endif%} 
   </div>
   <div style="margin-top: .3em;">This is Rietveld <a href='http://code.google.com/p/rietveld/updates/list'>{%include "live_revision.html"%}</a></div>
