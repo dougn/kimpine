@@ -96,7 +96,7 @@ urlpatterns += patterns(
     (r'^accounts/change_password/$', 'django.contrib.auth.views.password_change',
       {'post_change_redirect': '/'}),
     ('^admin/', include(admin.site.urls)),
-    (r'^rss/(?P<url>.*)$', 'django.contrib.syndication.views.feed',
+    (r'^rss/(?P<url>.*)$', 'django.contrib.syndication.views.Feed',
      {'feed_dict': feed_dict}),
     )
 
