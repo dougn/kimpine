@@ -1,8 +1,8 @@
-Django==1.3
-django-debug-toolbar==0.8.5
+Django==1.4
+django-debug-toolbar==0.9.4
 
 # for DB migrations
-South==0.7.3
+South==0.7.4
 
 # for syntax highlighting
-Pygments==1.4
+Pygments==1.5
